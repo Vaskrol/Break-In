@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-down" width="100" height="4" tilewidth="256" tileheight="256" nextobjectid="85">
+ <tileset firstgid="1" name="BreakIn" tilewidth="256" tileheight="256" tilecount="2" columns="4">
+  <tile id="1">
+   <properties>
+    <property name="Name" value="GroundDirt"/>
+   </properties>
+   <image width="256" height="256" source="../Sprites/Ground/dirt stones.png"/>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Name" value="Springboard"/>
+   </properties>
+   <image width="256" height="256" source="../Sprites/Obstacles/Trampline.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="4" name="BreakInTileSet" tilewidth="256" tileheight="256" tilecount="4" columns="4">
+  <image source="../Sprites/Obstacles/BuildingA_texture.png" width="1024" height="256"/>
+  <tile id="0">
+   <properties>
+    <property name="Name" value="BuildingA-1"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Name" value="BuildingA-2"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Name" value="BuildingA-3"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Ground" width="100" height="4">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
+2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+ <objectgroup name="Tramplines">
+  <object id="6" gid="3" x="1532" y="520" width="256" height="256"/>
+  <object id="7" gid="3" x="3844" y="780" width="256" height="256"/>
+  <object id="8" gid="3" x="5896" y="276" width="256" height="256"/>
+  <object id="9" gid="3" x="5880" y="1016" width="256" height="256"/>
+  <object id="10" gid="3" x="3328" y="276" width="256" height="256"/>
+  <object id="11" gid="3" x="3324" y="784" width="256" height="256"/>
+ </objectgroup>
+ <objectgroup name="Buildings">
+  <object id="16" gid="4" x="1792" y="512" width="256" height="256"/>
+  <object id="18" gid="5" x="2048" y="512" width="256" height="256"/>
+  <object id="19" gid="6" x="2304" y="512" width="256" height="256"/>
+  <object id="20" gid="4" x="3584" y="256" width="256" height="256"/>
+  <object id="21" gid="6" x="4096" y="256" width="256" height="256"/>
+  <object id="22" gid="5" x="3840" y="256" width="256" height="256"/>
+  <object id="23" gid="4" x="5636" y="764" width="256" height="256"/>
+  <object id="24" gid="6" x="6148" y="764" width="256" height="256"/>
+  <object id="25" gid="5" x="5892" y="764" width="256" height="256"/>
+  <object id="26" gid="4" x="7436" y="500" width="256" height="256"/>
+  <object id="27" gid="6" x="7948" y="500" width="256" height="256"/>
+  <object id="28" gid="5" x="7692" y="500" width="256" height="256"/>
+  <object id="29" gid="4" x="7200" y="764" width="256" height="256"/>
+  <object id="30" gid="6" x="7712" y="764" width="256" height="256"/>
+  <object id="31" gid="5" x="7456" y="764" width="256" height="256"/>
+  <object id="38" gid="5" x="6400" y="1024" width="256" height="256"/>
+  <object id="41" gid="4" x="6144" y="1024" width="256" height="256"/>
+  <object id="42" gid="6" x="6656" y="1024" width="256" height="256"/>
+  <object id="43" gid="4" x="6400" y="256" width="256" height="256"/>
+  <object id="44" gid="5" x="6656" y="256" width="256" height="256"/>
+  <object id="45" gid="6" x="6912" y="256" width="256" height="256"/>
+  <object id="46" gid="4" x="8704" y="256" width="256" height="256"/>
+  <object id="47" gid="5" x="8960" y="256" width="256" height="256"/>
+  <object id="48" gid="6" x="9216" y="256" width="256" height="256"/>
+  <object id="49" gid="4" x="9216" y="1024" width="256" height="256"/>
+  <object id="50" gid="5" x="9472" y="1024" width="256" height="256"/>
+  <object id="51" gid="6" x="9728" y="1024" width="256" height="256"/>
+  <object id="52" gid="4" x="9216" y="512" width="256" height="256"/>
+  <object id="53" gid="5" x="9472" y="512" width="256" height="256"/>
+  <object id="54" gid="6" x="9728" y="512" width="256" height="256"/>
+  <object id="55" gid="4" x="11008" y="768" width="256" height="256"/>
+  <object id="56" gid="5" x="11264" y="768" width="256" height="256"/>
+  <object id="57" gid="6" x="11520" y="768" width="256" height="256"/>
+  <object id="58" gid="4" x="11520" y="512" width="256" height="256"/>
+  <object id="59" gid="5" x="11776" y="512" width="256" height="256"/>
+  <object id="60" gid="6" x="12032" y="512" width="256" height="256"/>
+  <object id="61" gid="4" x="13312" y="256" width="256" height="256"/>
+  <object id="62" gid="5" x="13568" y="256" width="256" height="256"/>
+  <object id="63" gid="6" x="13824" y="256" width="256" height="256"/>
+  <object id="64" gid="4" x="13824" y="1024" width="256" height="256"/>
+  <object id="65" gid="5" x="14080" y="1024" width="256" height="256"/>
+  <object id="66" gid="6" x="14336" y="1024" width="256" height="256"/>
+  <object id="67" gid="4" x="13056" y="768" width="256" height="256"/>
+  <object id="68" gid="5" x="13312" y="768" width="256" height="256"/>
+  <object id="69" gid="6" x="13568" y="768" width="256" height="256"/>
+  <object id="70" gid="4" x="15616" y="512" width="256" height="256"/>
+  <object id="71" gid="5" x="15872" y="512" width="256" height="256"/>
+  <object id="72" gid="6" x="16128" y="512" width="256" height="256"/>
+  <object id="73" gid="4" x="16128" y="768" width="256" height="256"/>
+  <object id="74" gid="5" x="16384" y="768" width="256" height="256"/>
+  <object id="75" gid="6" x="16640" y="768" width="256" height="256"/>
+  <object id="76" gid="4" x="17408" y="256" width="256" height="256"/>
+  <object id="77" gid="5" x="17664" y="256" width="256" height="256"/>
+  <object id="78" gid="6" x="17920" y="256" width="256" height="256"/>
+  <object id="79" gid="4" x="17408" y="1024" width="256" height="256"/>
+  <object id="80" gid="5" x="17664" y="1024" width="256" height="256"/>
+  <object id="81" gid="6" x="17920" y="1024" width="256" height="256"/>
+ </objectgroup>
+</map>
