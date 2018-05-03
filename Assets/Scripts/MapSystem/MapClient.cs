@@ -11,23 +11,33 @@ public class MapClient : MonoBehaviour
 	[SerializeField] private Tilemap _tileMap;
 	[SerializeField] private GameObject _player;
 	[SerializeField] private GameObject _walls;
+	[SerializeField] private GameObject _mapObjects;
+	[SerializeField] private Sprite _mainSprite;
 	
 	private List<GameObject> _mapObjectsGameObjects;
 
 	// Tile size in world coordinates
-	private float _tileSize = 2.56f;
+	private float _tileSize = 1.28f;
 
 	private Map _map;
 
-	private int _mapWidth     = 6;
+	private int _mapWidth     = 12;
 	private int _mapLength    = 500;
-	private int _chunkSize    = 12;
+	private int _chunkSize    = 24;
 	private int _currentChunk = -1;
+
+	private object[] _mapParams;
 
 	void InitializeMap()
 	{
+		_mapParams = new object[]
+		{
+			_mainSprite
+		};
+
 		MapBuilder builder = new ProcedureMapBuilder();
 		var director = new MapDirector(builder);
+		director.SetupMap(_mapParams);
 		director.BuildMap(_mapLength, _mapWidth, _tileSize);
 		_map = builder.GetMap();
 	}
@@ -63,7 +73,7 @@ public class MapClient : MonoBehaviour
 			// Remove hidden chunk
 			if (_currentChunk > 0)
 			{
-				RemoveChunk(_currentChunk - 2);
+				// RemoveChunk(_currentChunk - 2);
 				RemoveObjects(_currentChunk - 2);
 			}
 		}
@@ -87,13 +97,13 @@ public class MapClient : MonoBehaviour
 	{
 		for (int i = chunkY * _chunkSize; i < (chunkY + 1) * _chunkSize; i++)
 			for (int j = 0; j < _map.Width; j++)
-				Destroy(_tilesGameObjects[i, j]);
+			{
+				// Not removing?
+			} 
 	}
 
 	private void DrawObjects(int chunkY)
 	{
-		var parentObject = GameObject.Find("Objects");
-
 		int minY = (int)(chunkY * _chunkSize * _tileSize);
 		int maxY = (int)((chunkY + 1) * _chunkSize * _tileSize);    // 20.48 units / 8 tiles * 256 px for 1 chunk 
 		foreach (var mapObject in _map.MapObjects)
@@ -105,7 +115,7 @@ public class MapClient : MonoBehaviour
 					as GameObject;
 				go.transform.position = new Vector3(mapObject.X, mapObject.Y, 0);
 				go.transform.rotation = Quaternion.Euler(0, 0, mapObject.Rotation);
-				go.transform.parent = parentObject.transform;
+				go.transform.parent = _mapObjects.transform;
 				_mapObjectsGameObjects.Add(go);
 			}
 		}
@@ -123,7 +133,7 @@ public class MapClient : MonoBehaviour
 				&& mapObject.transform.position.y < maxY)
 			{
 				Destroy(mapObject);
-				_mapObjectsGameObjects.RemoveAt(i);
+				_mapObjectsGameObjects.RemoveAt(i); // Bad
 				i--;
 			}
 		}
@@ -135,25 +145,14 @@ public class MapClient : MonoBehaviour
 		int mapWidth, 
 		float tileSize)
 	{
-		var parentGround = GameObject.Find("Ground");
-
 		// For each row
 		for (int i = startY; i < endY; i++)
 		{
 			// For each tile in row
 			for (int j = 0; j < mapWidth; j++)
 			{
-				var tile = _map.Ground[i, j];
-				_tileMap.SetTile(new Vector3Int(i, j, 5), tile);
-
-				//var groundTile =
-				//	Instantiate(
-				//		Resources.Load(tile.PrefabPath, typeof(GameObject))) 
-				//		as GameObject;
-				//groundTile.transform.position =
-				//	new Vector3(j * tileSize, i * tileSize, 5);
-				//groundTile.transform.parent = parentGround.transform;
-				//_tilesGameObjects[i, j] = groundTile;
+				var tile = _map.Ground[j, i];
+				_tileMap.SetTile(new Vector3Int(j, i, 5), tile);
 			}
 		}
 	}

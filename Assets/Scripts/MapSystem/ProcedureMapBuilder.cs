@@ -8,22 +8,21 @@ namespace MapSystem
 	using DataModel;
 	using UnityEngine;
 	using System.Collections.Generic;
+	using UnityEngine.Tilemaps;
 
 	public class ProcedureMapBuilder : MapBuilder
 	{
 		private Map _map;
-
 		private int _mapWidth, _mapLength;
-		float _tileSize;
+		private float _tileSize;
 
 		private Sprite _mainBackgroundSprite;
 
 		public ProcedureMapBuilder()
 		{
 			_map = new Map();
-			_mainBackgroundSprite = Resources.Load();
 		}
-
+		
 		/// <summary>
 		/// Setups map size in tiles
 		/// 1 tile is usually 2.56 in world coordinates
@@ -38,28 +37,40 @@ namespace MapSystem
 			_tileSize = tileSize;
 		}
 
+		public override void SetMapParams(object[] parameters)
+		{
+			foreach (var param in parameters)
+			{
+				if (param is Sprite)
+				{
+					_mainBackgroundSprite = param as Sprite;
+					continue;
+				}
+			}
+		}
+
 		public override void GenerateGround()
 		{
 			// Add 2 to width for borders
-			_map.Ground = new Tile[_mapLength, _mapWidth + 2];
-			for (int i = 0; i < _map.Length; i++)
+			_map.Ground = new Tile[_mapWidth, _mapLength];
+			for (int y = 0; y < _map.Length; y++)
 			{
 				// Shift to right by one cell to fit a border line at left
-				for (int j = 0; j < _map.Width; j++)
+				for (int x = 0; x < _map.Width; x++)
 				{
-					if (j == 0 || j == _map.Width - 1)
+					if (x == 0 || x == _map.Width - 1)
 					{
 						// Borders
 						var tile = new Tile();
-						tile.sprite 
-						_map.Ground[i, j] = tile;
+						tile.sprite = _mainBackgroundSprite;
+						_map.Ground[x, y] = tile;
 					}
 					else
 					{
 						// Grounds
 						var tile = new Tile();
-						
-						_map.Ground[i, j] = tile;
+						tile.sprite = _mainBackgroundSprite;
+						_map.Ground[x, y] = tile;
 					}
 				}
 			}
@@ -79,7 +90,7 @@ namespace MapSystem
 				obj.Rotation = Random.Range(0, 359);
 
 				_map.MapObjects.Add(obj);
-            }
+			}
 		}
 
 		public override Map GetMap()

@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 using System;
 using System.Xml.Serialization;
+using UnityEngine.Tilemaps;
 
 [Serializable]
 public class TileSet

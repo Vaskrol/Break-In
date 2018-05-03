@@ -18,8 +18,8 @@ namespace DataModel
 
 		public List<MapObject> MapObjects { get; set; }
 
-		public int Width { get { return Ground.GetLength(1); } }
+		public int Width { get { return Ground.GetLength(0); } }
 
-		public int Length { get { return Ground.GetLength(0); } }
+		public int Length { get { return Ground.GetLength(1); } }
 	}
 }

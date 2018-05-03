@@ -104,8 +104,8 @@ public class TiledMapBuilder : MonoBehaviour
 			{
 				foreach (var tile in tileSet.Tiles)
 				{
-					_tileNames[tileSet.FirstGid + tile.Id] =
-						tile.Properties.First(p => p.Name == "Name").Value;
+					//_tileNames[tileSet.FirstGid + tile.Id] =
+					//	tile.Properties.First(p => p.Name == "Name").Value;
 				}
 			}
 
