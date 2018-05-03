@@ -11,12 +11,13 @@ using UnityEngine.Tilemaps;
 namespace DataModel
 {
 	using System.Collections.Generic;
+    using Assets.Scripts.DataModel;
 
-	public class Map
+    public class Map
 	{
 		public Tile[,] Ground { get; set; }
 
-		public List<MapObject> MapObjects { get; set; }
+		public List<MapObjectData> MapObjects { get; set; }
 
 		public int Width { get { return Ground.GetLength(0); } }
 

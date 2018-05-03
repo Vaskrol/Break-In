@@ -11,10 +11,14 @@ public class MapClient : MonoBehaviour
 	[SerializeField] private Tilemap _tileMap;
 	[SerializeField] private GameObject _player;
 	[SerializeField] private GameObject _walls;
-	[SerializeField] private GameObject _mapObjects;
+	[SerializeField] private GameObject _mapObjectsContainer;
 	[SerializeField] private Sprite _mainSprite;
-	
-	private List<GameObject> _mapObjectsGameObjects;
+
+    [Header("Map objects prefabs")]
+    [SerializeField]
+    private MapObject[] _mapObjectPrefabs;	
+
+	private List<MapObject> _mapObjects;
 
 	// Tile size in world coordinates
 	private float _tileSize = 1.28f;
@@ -37,7 +41,7 @@ public class MapClient : MonoBehaviour
 
 		MapBuilder builder = new ProcedureMapBuilder();
 		var director = new MapDirector(builder);
-		director.SetupMap(_mapParams);
+		director.SetupMap(_mapParams, _mapObjectPrefabs);
 		director.BuildMap(_mapLength, _mapWidth, _tileSize);
 		_map = builder.GetMap();
 	}
@@ -45,7 +49,7 @@ public class MapClient : MonoBehaviour
 	public void Start()
 	{
 		InitializeMap();
-		_mapObjectsGameObjects = new List<GameObject>();
+		_mapObjects = new List<MapObject>();
 
 		DrawChunk(0);
 		DrawChunk(1);
@@ -74,7 +78,7 @@ public class MapClient : MonoBehaviour
 			if (_currentChunk > 0)
 			{
 				// RemoveChunk(_currentChunk - 2);
-				RemoveObjects(_currentChunk - 2);
+				//RemoveObjects(_currentChunk - 2);
 			}
 		}
 
@@ -108,15 +112,10 @@ public class MapClient : MonoBehaviour
 		int maxY = (int)((chunkY + 1) * _chunkSize * _tileSize);    // 20.48 units / 8 tiles * 256 px for 1 chunk 
 		foreach (var mapObject in _map.MapObjects)
 		{
-			if (mapObject.Y > minY && mapObject.Y < maxY)
+            if (mapObject.InstantiatePosition.y > minY && mapObject.InstantiatePosition.y < maxY)
 			{
-				var go = Instantiate(
-					Resources.Load(mapObject.PrefabPath, typeof(GameObject))) 
-					as GameObject;
-				go.transform.position = new Vector3(mapObject.X, mapObject.Y, 0);
-				go.transform.rotation = Quaternion.Euler(0, 0, mapObject.Rotation);
-				go.transform.parent = _mapObjects.transform;
-				_mapObjectsGameObjects.Add(go);
+                var go = Instantiate(mapObject.Prefab, mapObject.InstantiatePosition, mapObject.InstantiateRotation, _mapObjectsContainer.transform);
+				_mapObjects.Add(go);
 			}
 		}
 	}
@@ -126,14 +125,14 @@ public class MapClient : MonoBehaviour
 		int minY = (int)(chunkY * _chunkSize * _tileSize);
 		int maxY = (int)((chunkY + 1) * _chunkSize * _tileSize);
 
-		for (int i = 0; i < _mapObjectsGameObjects.Count; i++)
+		for (int i = 0; i < _mapObjects.Count; i++)
 		{
-			var mapObject = _mapObjectsGameObjects[i];
+			var mapObject = _mapObjects[i];
 			if (mapObject.transform.position.y > minY
 				&& mapObject.transform.position.y < maxY)
 			{
 				Destroy(mapObject);
-				_mapObjectsGameObjects.RemoveAt(i); // Bad
+				_mapObjects.RemoveAt(i); // Bad
 				i--;
 			}
 		}

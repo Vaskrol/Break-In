@@ -1,7 +1,6 @@
 ﻿// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
-
-using UnityEngine.Tilemaps;
+using Assets.Scripts.DataModel;
 
 namespace MapSystem
 {
@@ -9,14 +8,16 @@ namespace MapSystem
 	using UnityEngine;
 	using System.Collections.Generic;
 	using UnityEngine.Tilemaps;
+    using System.Linq;
 
-	public class ProcedureMapBuilder : MapBuilder
+    public class ProcedureMapBuilder : MapBuilder
 	{
 		private Map _map;
 		private int _mapWidth, _mapLength;
 		private float _tileSize;
 
 		private Sprite _mainBackgroundSprite;
+		private MapObject[] _mapObjectPrefabs;
 
 		public ProcedureMapBuilder()
 		{
@@ -49,7 +50,11 @@ namespace MapSystem
 			}
 		}
 
-		public override void GenerateGround()
+        public override void SetMapObjects(MapObject[] mapObjects) {
+            _mapObjectPrefabs = mapObjects;
+        }
+
+        public override void GenerateGround()
 		{
 			// Add 2 to width for borders
 			_map.Ground = new Tile[_mapWidth, _mapLength];
@@ -80,16 +85,20 @@ namespace MapSystem
 
 		public override void GenerateObjects()
 		{
-			_map.MapObjects = new List<MapObject>();
+			_map.MapObjects = new List<MapObjectData>();
+            var obstacles = _mapObjectPrefabs.Where(o => o.ObjectType == ObjectTypeEnum.UndestructableObstacle).ToArray();
 			for (int i = 0; i < 300; i++)
 			{
-				var obj = new MapObject();
-				obj.PrefabPath = "Prefabs/Objects/Rocks/Rock_1";
-				obj.X = Random.Range(0, _mapWidth + 2) * _tileSize;
-				obj.Y = Random.Range(5, _mapLength) * _tileSize;
-				obj.Rotation = Random.Range(0, 359);
+                var objData = new MapObjectData();
 
-				_map.MapObjects.Add(obj);
+                objData.Prefab = obstacles[Random.Range(0, obstacles.Length)];
+                objData.InstantiatePosition = new Vector3(
+                    Random.Range(0, _mapWidth + 2) * _tileSize,
+                    Random.Range(5, _mapLength) * _tileSize,
+                    0);
+                objData.InstantiateRotation = Quaternion.Euler(0, 0, Random.Range(0, 359));
+
+                _map.MapObjects.Add(objData);
 			}
 		}
 
@@ -97,5 +106,7 @@ namespace MapSystem
 		{
 			return _map;
 		}
-	}
+
+
+    }
 }

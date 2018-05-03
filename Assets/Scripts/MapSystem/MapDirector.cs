@@ -11,9 +11,10 @@ public class MapDirector
 		mapBuilder = builder;
 	}
 
-	public void SetupMap(object[] parameters)
+	public void SetupMap(object[] parameters, MapObject[] mapObjects)
 	{
 		mapBuilder.SetMapParams(parameters);
+        mapBuilder.SetMapObjects(mapObjects);
 	}
 
 	public void BuildMap(int length, int width, float tileSize)
