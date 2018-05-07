@@ -87,7 +87,7 @@ namespace MapSystem
 		{
 			_map.MapObjects = new List<MapObjectData>();
             var obstacles = _mapObjectPrefabs.Where(o => o.ObjectType == ObjectTypeEnum.UndestructableObstacle).ToArray();
-			for (int i = 0; i < 300; i++)
+			for (int i = 0; i < 100; i++)
 			{
                 var objData = new MapObjectData();
 
