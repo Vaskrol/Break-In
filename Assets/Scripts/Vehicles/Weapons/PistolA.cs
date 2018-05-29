@@ -44,17 +44,25 @@ public class PistolA : MonoBehaviour, IWeapon
 					new Vector3(hit.point.x, hit.point.y), 
 					Quaternion.identity);
 
-				var destroyableComponents =
-					hit.collider.gameObject.GetComponents<IDestroyable>();
 
-				if (destroyableComponents.Length > 0)
-				{
-					foreach (var component in destroyableComponents)
-					{
-						component.RecieveDamage(Damage, "bullit");
-					}
-				}
-			}
+                var vController = hit.collider.gameObject.GetComponent<VehicleController>();
+                if (vController == null)
+                    return;
+
+                var vehicle = vController.CurrentVehicle;
+                vehicle.RecieveDamage(Damage, "bullit");
+
+                // TODO: Make component-based damage system
+                //            var destroyableComponents = vehicleController.GetComponents<IDestroyable>();
+
+                //if (destroyableComponents.Length > 0)
+                //{
+                //	foreach (var component in destroyableComponents)
+                //	{
+                //		component.RecieveDamage(Damage, "bullit");
+                //	}
+                //}
+            }
 
 			curCooldown += Cooldown;
 		}
@@ -84,7 +92,7 @@ public class PistolA : MonoBehaviour, IWeapon
 
 	public void UpdateRotation()
 	{
-
+        // Not rotated weapon
 	}
 
 	private void DrawBullitTrail(Vector3 start, Vector3 direction)
@@ -110,9 +118,9 @@ public class PistolA : MonoBehaviour, IWeapon
 		var colorKeys = new GradientColorKey[2];
 		var alphaKeys = new GradientAlphaKey[2];
 
-		colorKeys[0].color = Color.white;
+		colorKeys[0].color = Color.black;
 		colorKeys[0].time = 0.0F;
-		colorKeys[1].color = Color.white;
+		colorKeys[1].color = Color.black;
 		colorKeys[1].time = 1.0F;
 		
 		alphaKeys[0].alpha = 0.8F;

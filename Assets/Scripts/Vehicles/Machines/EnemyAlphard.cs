@@ -11,7 +11,7 @@ public class EnemyAlphard : VehicleBase, IDestroyable
 {
 	public EnemyAlphard(GameObject player) : base(player)
 	{
-		HealthPoints     = 100.0f;
+		HealthPoints     = 50f;
 		UserAccelerating = 0.1f;
 		Braking          = 0.2f;
 		Steering         = 3.0f;
