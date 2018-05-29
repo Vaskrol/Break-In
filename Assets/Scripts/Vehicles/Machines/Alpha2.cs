@@ -19,8 +19,7 @@ public class Alpha2 : VehicleBase
 		{
 			new WeaponSlot { Position = new Vector2(0, -0.4f) }
 		};
-
-		//Handling = new PlayerCarHandling2(player, this);
+        		
 		Handling = new RigidBodyCarHandling(player, this);
 		Firing = new PlayerFiring(player, this);
 		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);
