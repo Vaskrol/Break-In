@@ -7,7 +7,8 @@
 // 2017
 namespace Assets.Scripts.Vehicles.Machines
 {
-	using Firing;
+    using System.Linq;
+    using Firing;
 	using Interfaces;
 	using UnityEngine;
 
@@ -59,7 +60,7 @@ namespace Assets.Scripts.Vehicles.Machines
 			}
 		}
 
-		public void RecieveDamage(float damage, string damageType)
+		public void RecieveDamage(float damage, DamageType damageType)
 		{
 			HealthPoints -= damage;
 
@@ -89,5 +90,34 @@ namespace Assets.Scripts.Vehicles.Machines
 		{
 			CurrentGameState = GameState.GameOver;
 		}
-	}
+
+        // Resources.Load("Prefabs/Weapons/PistolA", typeof(GameObject))
+        public void AddWeapon(IWeapon weapon) {
+            WeaponSlot slot = Slots.OfType<WeaponSlot>().Where(s => s.Weapon == null).First();
+            if (slot == null) {
+                Debug.LogError("There is no free slot in" + GetType());
+                return;
+            }
+            AddWeapon(weapon, slot);
+        }
+
+        public void AddWeapon(IWeapon weapon, int slotNumber) {
+            WeaponSlot slot;
+            if (Slots.OfType<WeaponSlot>().Count() < slotNumber)
+                slot = Slots.OfType<WeaponSlot>().ToArray()[slotNumber];
+            else {
+                Debug.LogError("There are no slot number " + slotNumber + " in " + GetType());
+                return;
+            }
+            AddWeapon(weapon, slot);
+        }
+
+        public void AddWeapon(IWeapon weapon, WeaponSlot slot) {
+            var weaponGameObject = GameObject.Instantiate(weapon.GameObject);
+            slot.Weapon = weaponGameObject.GetComponent<IWeapon>();
+            slot.GameObject = weaponGameObject;
+            weaponGameObject.transform.parent = _player.transform;
+            weaponGameObject.transform.localPosition = slot.Position;
+        }
+    }
 }

@@ -21,7 +21,8 @@ public class Alpha2 : VehicleBase
 		};
         		
 		Handling = new RigidBodyCarHandling(player, this);
-		Firing = new PlayerFiring(player, this);
+		Firing = new PlayerFiring(player.transform, this);
 		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);
+        // AddWeapon();
 	}
 }

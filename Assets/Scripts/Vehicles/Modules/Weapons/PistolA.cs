@@ -5,13 +5,10 @@
 // Vpetrov. Петров Василий. 
 // 
 // 2016
-
-using Assets.Scripts;
 using Assets.Scripts.Vehicles.Weapons.Rotation;
-
 using UnityEngine;
 
-public class PistolA : MonoBehaviour, IWeapon
+public class PistolA : AbstractWeapon, IWeapon
 {
 	public float Cooldown { get; set; }
 
@@ -19,7 +16,7 @@ public class PistolA : MonoBehaviour, IWeapon
 
 	public IRotationBehaviour RotationBehaviour { get; set; }
 
-	private float curCooldown = 0;
+    private float curCooldown = 0;
 
 	private float spreading = 10f;
 
@@ -50,10 +47,10 @@ public class PistolA : MonoBehaviour, IWeapon
                     return;
 
                 var vehicle = vController.CurrentVehicle;
-                vehicle.RecieveDamage(Damage, "bullit");
+                vehicle.RecieveDamage(Damage, DamageType.Bullit);
 
                 // TODO: Make component-based damage system
-                //            var destroyableComponents = vehicleController.GetComponents<IDestroyable>();
+                // var destroyableComponents = vehicleController.GetComponents<IDestroyable>();
 
                 //if (destroyableComponents.Length > 0)
                 //{

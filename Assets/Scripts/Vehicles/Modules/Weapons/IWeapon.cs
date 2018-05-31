@@ -35,4 +35,10 @@ public interface IWeapon
 	/// Behaviour of weapon rotation
 	/// </summary>
 	IRotationBehaviour RotationBehaviour { get; set; }
+
+    /// <summary>
+    /// Weapon gameobject (prefab)
+    /// </summary>
+    GameObject GameObject { get; }
+    
 }
