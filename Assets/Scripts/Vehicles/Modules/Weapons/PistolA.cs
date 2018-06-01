@@ -8,13 +8,13 @@
 using Assets.Scripts.Vehicles.Weapons.Rotation;
 using UnityEngine;
 
-public class PistolA : AbstractWeapon, IWeapon
-{
-	public float Cooldown { get; set; }
+public class PistolA : AbstractWeapon, IWeapon {
 
-	public float Damage { get; set; }
+    public float Cooldown { get; set; }
 
-	public IRotationBehaviour RotationBehaviour { get; set; }
+	public float Damage { get; set; }    
+
+    public IRotationBehaviour RotationBehaviour { get; set; }
 
     private float curCooldown = 0;
 
@@ -68,7 +68,8 @@ public class PistolA : AbstractWeapon, IWeapon
 	void Start()
 	{
 		RotationBehaviour = new NoRotation();
-		Cooldown = 0.5f;
+        Level = 1;
+        Cooldown = 0.5f;
 		Damage = 25f;
 
 		_hitExplosionPrefab = (GameObject)

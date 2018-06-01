@@ -4,6 +4,7 @@ using Assets.Scripts.Vehicles.Handling;
 using Assets.Scripts.Vehicles.Handling.PlayerHandling;
 using Assets.Scripts.Vehicles.Machines;
 using UnityEngine;
+using System.Linq;
 
 public class Alpha2 : VehicleBase
 {
@@ -23,6 +24,7 @@ public class Alpha2 : VehicleBase
 		Handling = new RigidBodyCarHandling(player, this);
 		Firing = new PlayerFiring(player.transform, this);
 		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);
-        // AddWeapon();
+
+        //AddWeapon(ModulesController.Instance().Weapons.Where(w => w. == 1);
 	}
 }

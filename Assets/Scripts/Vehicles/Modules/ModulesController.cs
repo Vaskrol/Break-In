@@ -1,13 +1,24 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Assets.Scripts.Basics;
 using UnityEngine;
+using System.Linq;
 
-class ModulesController : MonoBehaviour {
+class ModulesController : MbSingleton<ModulesController> {
 
-    public IWeapon[] Weapons;
+    [SerializeField]
+    private List<GameObject> _weaponPrefabs;
+    
+    public List<IWeapon> Weapons {
+        get {
+            return _weaponPrefabs.Select(w => w.GetComponent<IWeapon>()).ToList();
+        }
+    }
 
-    public IEquipment[] Equipment;
+    public List<IEquipment> Equipment = null;
+
+    private void Start() {
+        Equipment.Add(new EngineA());
+    }   
 }
 
