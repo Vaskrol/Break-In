@@ -15,7 +15,7 @@ class ModulesController : MbSingleton<ModulesController> {
         }
     }
 
-    public List<IEquipment> Equipment = null;
+    public List<IEquipment> Equipment = new List<IEquipment>();
 
     private void Start() {
         Equipment.Add(new EngineA());

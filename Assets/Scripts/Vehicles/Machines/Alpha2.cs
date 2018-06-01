@@ -25,6 +25,6 @@ public class Alpha2 : VehicleBase
 		Firing = new PlayerFiring(player.transform, this);
 		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);
 
-        //AddWeapon(ModulesController.Instance().Weapons.Where(w => w. == 1);
+        AddWeapon(ModulesController.Instance().Weapons.First(w => w is PistolA));
 	}
 }
