@@ -48,17 +48,6 @@ public class PistolA : AbstractWeapon, IWeapon {
 
                 var vehicle = vController.CurrentVehicle;
                 vehicle.RecieveDamage(Damage, DamageType.Bullit);
-
-                // TODO: Make component-based damage system
-                // var destroyableComponents = vehicleController.GetComponents<IDestroyable>();
-
-                //if (destroyableComponents.Length > 0)
-                //{
-                //	foreach (var component in destroyableComponents)
-                //	{
-                //		component.RecieveDamage(Damage, "bullit");
-                //	}
-                //}
             }
 
 			curCooldown += Cooldown;
@@ -91,47 +80,5 @@ public class PistolA : AbstractWeapon, IWeapon {
 	public void UpdateRotation()
 	{
         // Not rotated weapon
-	}
-
-	private void DrawBullitTrail(Vector3 start, Vector3 direction)
-	{
-		var trailEnd = start + direction;
-		var trailEndObject = Instantiate(new GameObject());
-
-		var lineRenderer = trailEndObject.AddComponent(typeof(LineRenderer)) 
-			as LineRenderer;
-		var destroyer = trailEndObject.AddComponent(typeof(ObjectDestroyer)) 
-			as ObjectDestroyer;
-		var fader = trailEndObject.AddComponent(typeof(ObjectFader))
-			as ObjectFader;
-
-		destroyer.LifeTime = 1;
-		fader.TimeToFade = 1;
-
-		lineRenderer.startWidth = 0.01f;
-		lineRenderer.endWidth = 0.01f;
-		lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-
-		var g = new Gradient();
-		var colorKeys = new GradientColorKey[2];
-		var alphaKeys = new GradientAlphaKey[2];
-
-		colorKeys[0].color = Color.black;
-		colorKeys[0].time = 0.0F;
-		colorKeys[1].color = Color.black;
-		colorKeys[1].time = 1.0F;
-		
-		alphaKeys[0].alpha = 0.8F;
-		alphaKeys[0].time = 0.0F;
-		alphaKeys[1].alpha = 0.0F;
-		alphaKeys[1].time = 1.0F;
-
-		g.SetKeys(colorKeys, alphaKeys);
-
-		lineRenderer.colorGradient = g;
-		lineRenderer.SetPosition(0, start);
-		lineRenderer.SetPosition(1, trailEnd);
-
-
 	}
 }

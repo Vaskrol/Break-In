@@ -8,7 +8,10 @@ namespace Assets.Scripts.AI {
 
         [SerializeField] private GameObject _enemiesHolder;
 
+        [SerializeField] private GameObject _player;
+
         [SerializeField] private List<GameObject> _enemiesPrefabs;
+
 
         private List<GameObject> _enemies = new List<GameObject>();
         
@@ -19,7 +22,7 @@ namespace Assets.Scripts.AI {
         }
 
         private float timeToSpawn = 0;
-        private float spawnCooldown = 3;
+        private float spawnCooldown = 1.5f;
 
 
         private void Start() {
@@ -39,7 +42,7 @@ namespace Assets.Scripts.AI {
         }
 
         private GameObject SpawnEnemy() {
-            var spawnPos = new Vector3(Random.Range(2, 15), 2, 0);
+            var spawnPos = new Vector3(Random.Range(2, 15), _player.transform.position.y - 10, 0);
             var spawnRot = Quaternion.identity;
             var enemy = Instantiate(_enemiesPrefabs[0], spawnPos, spawnRot, _enemiesHolder.transform);
             return enemy;
