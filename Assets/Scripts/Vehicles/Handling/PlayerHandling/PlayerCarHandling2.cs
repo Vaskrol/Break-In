@@ -10,6 +10,7 @@ using Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
+// TODO: Separate this to "phisics" class
 public class PlayerCarHandling2 : IHandlingBehaviour
 {
 	public Vector3 CurrentVelocity { get; set; }
@@ -84,9 +85,9 @@ public class PlayerCarHandling2 : IHandlingBehaviour
 		// ALIGNING
 		var playerRotation =
 			HandlingObject.transform.rotation.eulerAngles.z;
-		if (playerRotation > 0.5f)
+		if (playerRotation > 0.5f && playerRotation < 359.5f)
 		{
-			var rotateAngle = _currentVehicle.Steering * 10
+			var rotateAngle = _currentVehicle.Steering * 15
 			                  * Time.deltaTime;
 
 			if (playerRotation < 180) rotateAngle *= -1;

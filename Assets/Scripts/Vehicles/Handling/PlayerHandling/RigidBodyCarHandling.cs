@@ -69,7 +69,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
             var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
 
-            if (Math.Abs(curAngle) < 0.01f || (Math.Abs(_prevAngle) > 0.01f && Mathf.Abs(curAngle - _prevAngle) > 300))
+            if ((Math.Abs(curAngle) < 0.01f || (Math.Abs(_prevAngle) > 0.01f) && Mathf.Abs(curAngle - _prevAngle) > 300))
                 if (Math.Abs(curAngle) < 1f || (Math.Abs(curAngle) > 359f)) {
                     HandlingObject.transform.rotation =
                         Quaternion.AngleAxis(0, Vector3.back);
@@ -78,29 +78,40 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
                 }
 
 
-            var alignTorque = 1.1f;
+            var alignTorque = 1.5f;
 
             Debug.Log("curAngle: " + curAngle);
 
+            float torque = 0, angualrDrag = _defaultAngularDrag;
+
             // Turned right
-            if (curAngle >= 5 && curAngle <= 180) {
-                _vehicleRb.angularDrag = _defaultAngularDrag;
-                _vehicleRb.AddTorque(-alignTorque * curAngle / 180);
+            if (curAngle >= 1 && curAngle <= 180) {
+                angualrDrag = _defaultAngularDrag;
+                torque = - alignTorque * curAngle / 180;
                
             }
 
             // Turned left
-            else if (curAngle <= 355) {
-                _vehicleRb.angularDrag = _defaultAngularDrag;
-                _vehicleRb.AddTorque(alignTorque * (curAngle - 180) / 180);
+            else if (curAngle <= 359) {
+                angualrDrag = _defaultAngularDrag;
+                torque = alignTorque * (360 - curAngle) / 180;
             }
 
             // (Almost) straight
             else {
-                _vehicleRb.angularDrag = 100;
+                angualrDrag = 100;
             }
-                        
+
+            _vehicleRb.angularDrag = angualrDrag;
+            _vehicleRb.AddTorque(torque);
+
             _prevAngle = curAngle;
+
+            Debug.DrawRay(
+                 HandlingObject.transform.position + HandlingObject.transform.up,
+                 HandlingObject.transform.right * torque * -2,
+                 Color.red,
+                 0);
         }
 
         private void ProcessAccelerating()
@@ -115,7 +126,13 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
 			_vehicleRb.AddForce(HandlingObject.transform.up *
 			                    acceleration);
-		}
+
+            Debug.DrawRay(
+                HandlingObject.transform.position,
+                HandlingObject.transform.up * acceleration,
+                Color.green,
+                0);
+        }
 
 		public void InstallEquipment()
 		{
