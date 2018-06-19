@@ -12,12 +12,13 @@ using UnityEngine;
 
 namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 {
-	public class RigidBodyCarHandling : IHandlingBehaviour
+	public class RigidBodyCarPhysics : IHandlingBehaviour
 	{
 		public GameObject HandlingObject { get; set; }
 		public HandlingCondition CurrentCondition { get; set; }
         
         private const float _defaultAngularDrag = 1.1f;
+        private const float _sidewayFriction = 3.0f;
 
 		public Vector3 CurrentVelocity
 		{
@@ -28,7 +29,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 		private Rigidbody2D _vehicleRb;
 		private float _prevAngle = 0;
 
-		public RigidBodyCarHandling(GameObject player, VehicleBase currentVehicle)
+		public RigidBodyCarPhysics(GameObject player, VehicleBase currentVehicle)
 		{
 			HandlingObject = player;
 			_currentVehicle = currentVehicle;
@@ -49,7 +50,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
         private void ProcessSteering()
 		{
-			// Player turning
+			// TODO: Move input to separate class
 			var userHandlingPos =
 				Camera.main.ScreenToWorldPoint(InputTool.InputPosition);
 			var xDiff = userHandlingPos.x -
@@ -65,44 +66,57 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
         }
 
         private void ProcessSelfAligning() {
-
-
+            
             var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
 
-            if ((Math.Abs(curAngle) < 0.01f || (Math.Abs(_prevAngle) > 0.01f) && Mathf.Abs(curAngle - _prevAngle) > 300))
-                if (Math.Abs(curAngle) < 1f || (Math.Abs(curAngle) > 359f)) {
-                    HandlingObject.transform.rotation =
-                        Quaternion.AngleAxis(0, Vector3.back);
-                    Debug.Log("Going straight");
-                    return;
-                }
+            // Resetting angle to zero when it is almost equals zero
+            //if ((Math.Abs(curAngle) < 0.01f || (Math.Abs(_prevAngle) > 0.01f) && Mathf.Abs(curAngle - _prevAngle) > 300))
+            //    if (Math.Abs(curAngle) < 1f || (Math.Abs(curAngle) > 359f)) {
+            //        HandlingObject.transform.rotation =
+            //            Quaternion.AngleAxis(0, Vector3.back);
+            //        Debug.Log("Going straight");
+            //        return;
+            //    }
 
 
-            var alignTorque = 1.5f;
+            var alignTorque = 4.5f;
 
             Debug.Log("curAngle: " + curAngle);
 
-            float torque = 0, angualrDrag = _defaultAngularDrag;
+            float torque = 0, angularDrag = _defaultAngularDrag;
+
+            var localVelocity = HandlingObject.transform.InverseTransformDirection(_vehicleRb.velocity);
+            var sideVelocity = localVelocity.y;
+
+            // Skids friction
+            // TODO: fix here
+            var sideForce = sideVelocity * _sidewayFriction * -1;
+            _vehicleRb.AddForce(sideForce * HandlingObject.transform.right);
+            Debug.DrawRay(
+                 HandlingObject.transform.position,
+                 sideForce * HandlingObject.transform.right * 2,
+                 Color.cyan,
+                 0);
 
             // Turned right
             if (curAngle >= 1 && curAngle <= 180) {
-                angualrDrag = _defaultAngularDrag;
+                angularDrag = _defaultAngularDrag;
                 torque = - alignTorque * curAngle / 180;
                
             }
 
             // Turned left
             else if (curAngle <= 359) {
-                angualrDrag = _defaultAngularDrag;
+                angularDrag = _defaultAngularDrag;
                 torque = alignTorque * (360 - curAngle) / 180;
             }
 
             // (Almost) straight
             else {
-                angualrDrag = 100;
+                angularDrag = 100;
             }
 
-            _vehicleRb.angularDrag = angualrDrag;
+            _vehicleRb.angularDrag = angularDrag;
             _vehicleRb.AddTorque(torque);
 
             _prevAngle = curAngle;
@@ -112,6 +126,12 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
                  HandlingObject.transform.right * torque * -2,
                  Color.red,
                  0);
+
+            // Sideways drag
+            Vector2 velocity;            
+            velocity.x = _vehicleRb.velocity.x / _sidewayFriction; 
+            velocity.y = _vehicleRb.velocity.y;
+            _vehicleRb.velocity = velocity;
         }
 
         private void ProcessAccelerating()

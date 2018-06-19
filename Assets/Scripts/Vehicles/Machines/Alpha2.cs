@@ -12,7 +12,7 @@ public class Alpha2 : VehicleBase
 	{
 		UserAccelerating = 0.3f;
 		Braking          = 1.5f;
-		Steering         = 10.0f;
+		Steering         = 50.0f;
 		Acceleration     = 8.0f;
 		MaxSpeed         = 6f;
 		Mass             = 900f;
@@ -21,7 +21,7 @@ public class Alpha2 : VehicleBase
 			new WeaponSlot { Position = new Vector2(0, -0.4f) }
 		};
         		
-		Handling = new RigidBodyCarHandling(player, this);
+		Handling = new RigidBodyCarPhysics(player, this);
 		Firing = new PlayerFiring(player.transform, this);
 		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);
 
