@@ -38,15 +38,14 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
         public void Update()
 		{
-            // Accelerating
             ProcessAccelerating();
-
-            // Steering
+			
             ProcessSteering();
-
-            // Self aligning
+			
             ProcessSelfAligning();
-        }
+
+	        ProcessSideFriction();
+		}
 
         private void ProcessSteering()
 		{
@@ -69,44 +68,20 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
             
             var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
 
-            // Resetting angle to zero when it is almost equals zero
-            //if ((Math.Abs(curAngle) < 0.01f || (Math.Abs(_prevAngle) > 0.01f) && Mathf.Abs(curAngle - _prevAngle) > 300))
-            //    if (Math.Abs(curAngle) < 1f || (Math.Abs(curAngle) > 359f)) {
-            //        HandlingObject.transform.rotation =
-            //            Quaternion.AngleAxis(0, Vector3.back);
-            //        Debug.Log("Going straight");
-            //        return;
-            //    }
-
-
-            var alignTorque = 4.5f;
+            var alignTorque = 10f;
 
             Debug.Log("curAngle: " + curAngle);
 
             float torque = 0, angularDrag = _defaultAngularDrag;
-
-            var localVelocity = HandlingObject.transform.InverseTransformDirection(_vehicleRb.velocity);
-            var sideVelocity = localVelocity.y;
-
-            // Skids friction
-            // TODO: fix here
-            var sideForce = sideVelocity * _sidewayFriction * -1;
-            _vehicleRb.AddForce(sideForce * HandlingObject.transform.right);
-            Debug.DrawRay(
-                 HandlingObject.transform.position,
-                 sideForce * HandlingObject.transform.right * 2,
-                 Color.cyan,
-                 0);
-
-            // Turned right
-            if (curAngle >= 1 && curAngle <= 180) {
+			
+	        // Turned right
+			if (curAngle >= 1 && curAngle <= 180) {
                 angularDrag = _defaultAngularDrag;
                 torque = - alignTorque * curAngle / 180;
-               
-            }
+			}
 
             // Turned left
-            else if (curAngle <= 359) {
+            else if (curAngle > 180 && curAngle <= 359) {
                 angularDrag = _defaultAngularDrag;
                 torque = alignTorque * (360 - curAngle) / 180;
             }
@@ -116,7 +91,12 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
                 angularDrag = 100;
             }
 
-            _vehicleRb.angularDrag = angularDrag;
+	        float fullAlighSpeed = 8f;
+			var currentSpeed = _vehicleRb.velocity.y ;
+			var modifier = Mathf.Clamp(currentSpeed, 0, fullAlighSpeed) / fullAlighSpeed;
+	        torque *= modifier;
+
+			_vehicleRb.angularDrag = angularDrag;
             _vehicleRb.AddTorque(torque);
 
             _prevAngle = curAngle;
@@ -126,12 +106,6 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
                  HandlingObject.transform.right * torque * -2,
                  Color.red,
                  0);
-
-            // Sideways drag
-            Vector2 velocity;            
-            velocity.x = _vehicleRb.velocity.x / _sidewayFriction; 
-            velocity.y = _vehicleRb.velocity.y;
-            _vehicleRb.velocity = velocity;
         }
 
         private void ProcessAccelerating()
@@ -144,6 +118,13 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 			                   vehicleAcceleration * currentSpeed /
 			                   maxSpeed;
 
+			var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
+			// Turned right
+			if (curAngle < 359 && curAngle > 1)
+			{
+				acceleration *= 0.5f;
+			}
+
 			_vehicleRb.AddForce(HandlingObject.transform.up *
 			                    acceleration);
 
@@ -153,6 +134,18 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
                 Color.green,
                 0);
         }
+
+		private void ProcessSideFriction()
+		{
+			//var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
+			//if (curAngle > 359 || curAngle < 1)
+			//	return;
+
+			var sideFriction = 1.2f;
+			_vehicleRb.velocity = new Vector2(
+				_vehicleRb.velocity.x / sideFriction,
+				_vehicleRb.velocity.y);
+		}
 
 		public void InstallEquipment()
 		{
