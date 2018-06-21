@@ -28,6 +28,8 @@ namespace Assets.Scripts.Vehicles.Machines
 
 		public float HealthPoints { get; set; }
 
+		public Vector2 CenterOfMass { get; set; }
+
 		public IHandlingBehaviour Handling { get; set; }
 
 		public IJumpingBehaviour Jumping { get; set; }

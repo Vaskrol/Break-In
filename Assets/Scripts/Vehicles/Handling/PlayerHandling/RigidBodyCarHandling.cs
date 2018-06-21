@@ -68,7 +68,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
             
             var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
 
-            var alignTorque = 10f;
+            var alignTorque = 20f;
 
             Debug.Log("curAngle: " + curAngle);
 
@@ -76,19 +76,19 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 			
 	        // Turned right
 			if (curAngle >= 1 && curAngle <= 180) {
-                angularDrag = _defaultAngularDrag;
+                //angularDrag = _defaultAngularDrag;
                 torque = - alignTorque * curAngle / 180;
 			}
 
             // Turned left
             else if (curAngle > 180 && curAngle <= 359) {
-                angularDrag = _defaultAngularDrag;
+                //angularDrag = _defaultAngularDrag;
                 torque = alignTorque * (360 - curAngle) / 180;
             }
 
             // (Almost) straight
             else {
-                angularDrag = 100;
+                //angularDrag = 100;
             }
 
 	        float fullAlighSpeed = 8f;

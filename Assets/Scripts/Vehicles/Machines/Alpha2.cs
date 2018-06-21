@@ -16,6 +16,7 @@ public class Alpha2 : VehicleBase
 		Acceleration     = 8.0f;
 		MaxSpeed         = 6f;
 		Mass             = 900f;
+        CenterOfMass     = new Vector3(0, 0.5f);
 		Slots = new ISlot[]
 		{
 			new WeaponSlot { Position = new Vector2(0, -0.4f) }
