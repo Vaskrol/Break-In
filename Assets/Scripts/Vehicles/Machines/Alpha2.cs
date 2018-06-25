@@ -10,7 +10,9 @@ public class Alpha2 : VehicleBase
 {
 	public Alpha2(GameObject player) : base(player)
 	{
-		UserAccelerating = 0.3f;
+        HealthPoints     = 200f;
+        MaxHealthPoints     = 200f;
+        UserAccelerating = 0.3f;
 		Braking          = 1.5f;
 		Steering         = 50.0f;
 		Acceleration     = 8.0f;
@@ -24,8 +26,8 @@ public class Alpha2 : VehicleBase
         		
 		Handling = new RigidBodyCarPhysics(player, this);
 		Firing = new PlayerFiring(player.transform, this);
-		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);
+		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);        
 
-        AddWeapon(ModulesController.Instance().Weapons.First(w => w is PistolA));
+        AddWeapon(ModulesController.Instance.Weapons.First(w => w is PistolA));
 	}
 }

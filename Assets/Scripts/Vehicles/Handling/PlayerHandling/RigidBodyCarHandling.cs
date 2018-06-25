@@ -70,7 +70,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
             var alignTorque = 20f;
 
-            Debug.Log("curAngle: " + curAngle);
+            //Debug.Log("curAngle: " + curAngle);
 
             float torque = 0, angularDrag = _defaultAngularDrag;
 			

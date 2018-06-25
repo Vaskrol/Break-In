@@ -1,6 +1,7 @@
 ﻿public enum DamageType {
     Bullit,
     Fire,
-    Explosion
+    Explosion,
+    Impact
 }
 

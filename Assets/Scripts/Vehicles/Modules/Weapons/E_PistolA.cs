@@ -9,6 +9,8 @@ using UnityEngine;
 
 public class E_PistolA : AbstractWeapon, IWeapon {
 
+    [SerializeField] private GameObject _hitExplosionPrefab;
+
     public float Cooldown { get; set; }
 
     public float Damage { get; set; }
@@ -19,24 +21,30 @@ public class E_PistolA : AbstractWeapon, IWeapon {
 
     private float spreading = 10f;
 
-    private GameObject _hitExplosionPrefab;
-
     public void Fire(Vector2 aim) {
-        var spread = Random.Range(-spreading / 2, spreading / 2);
-        Vector3 firingDirection = (Quaternion.AngleAxis(spread, Vector3.back) * gameObject.transform.rotation).eulerAngles * 20;
+        var spread = Random.Range(-spreading / 2f, spreading / 2f);
+        var spreadAngle = Quaternion.AngleAxis(spread, Vector3.back);
+        Vector3 firingDirection = spreadAngle * transform.up * 20;
 
         if (curCooldown == 0.0f) {
+            curCooldown = Cooldown;
+
             RaycastHit2D hit =
                 Physics2D.Raycast(transform.position, firingDirection);
 
             DrawBullitTrail(transform.position, firingDirection);
 
             if (hit.collider != null) {
+                var targetPoint = new Vector2(hit.point.x, hit.point.y);
+
                 Instantiate(
                     _hitExplosionPrefab,
-                    new Vector3(hit.point.x, hit.point.y),
-                    Quaternion.identity);
+                    targetPoint,
+                    Quaternion.identity)
+                    .AddComponent<ObjectDestroyer>();
 
+                DebugDrawer.DrawCross(targetPoint, Color.red);
+                
 
                 var vController = hit.collider.gameObject.GetComponent<VehicleController>();
                 if (vController == null)
@@ -45,8 +53,6 @@ public class E_PistolA : AbstractWeapon, IWeapon {
                 var vehicle = vController.CurrentVehicle;
                 vehicle.RecieveDamage(Damage, DamageType.Bullit);
             }
-
-            curCooldown += Cooldown;
         }
     }
 
@@ -54,12 +60,7 @@ public class E_PistolA : AbstractWeapon, IWeapon {
         RotationBehaviour = new E_FullRotation();
         Level = 1;
         Cooldown = 2f;
-        Damage = 10f;
-
-        _hitExplosionPrefab = (GameObject)
-            Resources.Load(
-                "Prefabs/ParticleSystems/BulletExplosionA",
-                typeof(GameObject));
+        Damage = 5f;
         SetTrailColor(Color.red);
     }
 

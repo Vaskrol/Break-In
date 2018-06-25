@@ -17,6 +17,8 @@ public abstract class AbstractWeapon : MonoBehaviour {
         var trailEnd = start + direction;
         var trailEndObject = Instantiate(new GameObject());
 
+        trailEndObject.name = "Trail_end";
+
         var lineRenderer = trailEndObject.AddComponent(typeof(LineRenderer))
             as LineRenderer;
         var destroyer = trailEndObject.AddComponent(typeof(ObjectDestroyer))
@@ -27,8 +29,8 @@ public abstract class AbstractWeapon : MonoBehaviour {
         destroyer.LifeTime = 1;
         fader.TimeToFade = 1;
 
-        lineRenderer.startWidth = 0.01f;
-        lineRenderer.endWidth = 0.01f;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
         lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
 
         var g = new Gradient();

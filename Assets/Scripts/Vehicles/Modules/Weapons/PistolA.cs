@@ -29,7 +29,9 @@ public class PistolA : AbstractWeapon, IWeapon {
 
 		if (curCooldown == 0.0f)
 		{
-			RaycastHit2D hit = 
+            curCooldown = Cooldown;
+
+            RaycastHit2D hit = 
 				Physics2D.Raycast(transform.position, firingDirection);
 
 			DrawBullitTrail(transform.position, firingDirection);
@@ -49,8 +51,6 @@ public class PistolA : AbstractWeapon, IWeapon {
                 var vehicle = vController.CurrentVehicle;
                 vehicle.RecieveDamage(Damage, DamageType.Bullit);
             }
-
-			curCooldown += Cooldown;
 		}
 	}
 

@@ -45,6 +45,7 @@ namespace Assets.Scripts.AI {
             var spawnPos = new Vector3(Random.Range(2, 15), _player.transform.position.y - 10, 0);
             var spawnRot = Quaternion.identity;
             var enemy = Instantiate(_enemiesPrefabs[0], spawnPos, spawnRot, _enemiesHolder.transform);
+            
             return enemy;
         }
 

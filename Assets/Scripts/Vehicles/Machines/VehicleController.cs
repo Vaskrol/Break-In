@@ -11,6 +11,8 @@ public class VehicleController : MonoBehaviour
 
 	public string VehicleName;
 
+    private bool _isPlayer = false;
+
 	public void Start()
 	{
 		var tag = gameObject.tag;
@@ -20,7 +22,8 @@ public class VehicleController : MonoBehaviour
 			case "Player":
 				var player = GameObject.Find("Player");
 				CurrentVehicle = new Alpha2(player);
-				break;
+                _isPlayer = true;
+                break;
 			case "Enemy":
 				CurrentVehicle = new EnemyAlphard(gameObject);
 				break;
@@ -34,13 +37,16 @@ public class VehicleController : MonoBehaviour
 		{
 			CurrentVehicle.Update();
 		}
+
+        if (_isPlayer)
+            UIController.Instance.HealthBar.SetPercent(CurrentVehicle.HealthPoints / CurrentVehicle.MaxHealthPoints * 100f);
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.tag == "Obstacle")
 		{
-			CurrentVehicle.BlowUpVehicle();
+			CurrentVehicle.RecieveDamage(10f, DamageType.Impact);
         }
 	}
 }

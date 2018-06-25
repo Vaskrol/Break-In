@@ -28,6 +28,8 @@ namespace Assets.Scripts.Vehicles.Machines
 
 		public float HealthPoints { get; set; }
 
+		public float MaxHealthPoints { get; set; }
+
 		public Vector2 CenterOfMass { get; set; }
 
 		public IHandlingBehaviour Handling { get; set; }
@@ -82,8 +84,9 @@ namespace Assets.Scripts.Vehicles.Machines
 			var spriteRenderer = _player.GetComponentInChildren<SpriteRenderer>();
 			spriteRenderer.color = new Color(0.25f, 0.25f, 0.25f);
 
-			var dust = _player.transform.Find("CarDustTrack").gameObject;
-			if (dust != null) GameObject.Destroy(dust);
+			//var dust = _player.transform.Find("CarDustTrack").gameObject;
+			//if (dust != null)
+   //             Destroy(dust);
 
 			OnDestroy();
 		}
