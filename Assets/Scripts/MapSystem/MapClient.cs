@@ -115,6 +115,7 @@ public class MapClient : MonoBehaviour
             if (mapObject.InstantiatePosition.y > minY && mapObject.InstantiatePosition.y < maxY)
 			{
                 var go = Instantiate(mapObject.Prefab, mapObject.InstantiatePosition, mapObject.InstantiateRotation, _mapObjectsContainer.transform);
+                go.name = "MapObject";
 				_mapObjects.Add(go);
 			}
 		}

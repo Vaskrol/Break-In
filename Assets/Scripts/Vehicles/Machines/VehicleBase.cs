@@ -74,14 +74,15 @@ namespace Assets.Scripts.Vehicles.Machines
 
 		public void BlowUpVehicle()
 		{
-			GameObject.Instantiate(
+			var explosion = GameObject.Instantiate(
 				Resources.Load(
 					"Prefabs/ParticleSystems/CarExplosionEffect",
 					typeof(GameObject)),
 				_player.transform.position + Vector3.back * 10,
 				Quaternion.identity);
+            explosion.name = "Vehicle Explosion";
 
-			var spriteRenderer = _player.GetComponentInChildren<SpriteRenderer>();
+            var spriteRenderer = _player.GetComponentInChildren<SpriteRenderer>();
 			spriteRenderer.color = new Color(0.25f, 0.25f, 0.25f);
 
 			//var dust = _player.transform.Find("CarDustTrack").gameObject;

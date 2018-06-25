@@ -37,12 +37,12 @@ public class E_PistolA : AbstractWeapon, IWeapon {
             if (hit.collider != null) {
                 var targetPoint = new Vector2(hit.point.x, hit.point.y);
 
-                Instantiate(
+                var hitExplosion = Instantiate(
                     _hitExplosionPrefab,
                     targetPoint,
                     Quaternion.identity)
                     .AddComponent<ObjectDestroyer>();
-
+                hitExplosion.name = "Hit Explosion";
                 DebugDrawer.DrawCross(targetPoint, Color.red);
                 
 

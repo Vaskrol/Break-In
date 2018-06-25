@@ -38,11 +38,11 @@ public class PistolA : AbstractWeapon, IWeapon {
 
 			if (hit.collider != null)
 			{
-				Instantiate(
+				var explosion = Instantiate(
 					_hitExplosionPrefab, 
 					new Vector3(hit.point.x, hit.point.y), 
 					Quaternion.identity);
-
+                explosion.name = "Explosion";
 
                 var vController = hit.collider.gameObject.GetComponent<VehicleController>();
                 if (vController == null)
