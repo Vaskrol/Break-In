@@ -54,7 +54,21 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 				Camera.main.ScreenToWorldPoint(InputTool.InputPosition);
 			var xDiff = userHandlingPos.x -
 			            HandlingObject.transform.position.x;
-			var xAxis = Mathf.Clamp(xDiff, -1, 1);
+
+            float leftClamp = -1, rightClamp = 1;
+
+            var curAngle = HandlingObject.transform.rotation.eulerAngles.z;            
+            if (curAngle >= 1 && curAngle <= 180) { // Turned left
+                rightClamp = Mathf.Cos(Mathf.Deg2Rad * curAngle);
+            }            
+            else if (curAngle > 180 && curAngle <= 359) { // Turned right
+                leftClamp = Mathf.Cos(Mathf.Deg2Rad * (curAngle - 270));
+            }
+
+            var msg = string.Format("Angle: {0}, Clamps: {1},{2}", curAngle, leftClamp, rightClamp);
+            Debug.Log(msg);
+
+            var xAxis = Mathf.Clamp(xDiff, leftClamp, rightClamp);
 			var steer = 
 				_currentVehicle.Steering 
 				* Mathf.Pow(xAxis, 2) 
@@ -68,19 +82,17 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
             
             var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
 
-            var alignTorque = 20f;
-
-            //Debug.Log("curAngle: " + curAngle);
+            var alignTorque = 40f;
 
             float torque = 0, angularDrag = _defaultAngularDrag;
-			
-	        // Turned right
-			if (curAngle >= 1 && curAngle <= 180) {
+
+            // Turned left
+            if (curAngle >= 1 && curAngle <= 180) {
                 //angularDrag = _defaultAngularDrag;
                 torque = - alignTorque * curAngle / 180;
 			}
 
-            // Turned left
+            // Turned right
             else if (curAngle > 180 && curAngle <= 359) {
                 //angularDrag = _defaultAngularDrag;
                 torque = alignTorque * (360 - curAngle) / 180;
@@ -137,10 +149,6 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
 		private void ProcessSideFriction()
 		{
-			//var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
-			//if (curAngle > 359 || curAngle < 1)
-			//	return;
-
 			var sideFriction = 1.2f;
 			_vehicleRb.velocity = new Vector2(
 				_vehicleRb.velocity.x / sideFriction,

@@ -15,7 +15,7 @@ public abstract class AbstractWeapon : MonoBehaviour {
 
     protected void DrawBullitTrail(Vector3 start, Vector3 direction) {
         var trailEnd = start + direction;
-        var trailEndObject = Instantiate(new GameObject());
+        var trailEndObject = new GameObject();
 
         trailEndObject.name = "Trail_end";
 

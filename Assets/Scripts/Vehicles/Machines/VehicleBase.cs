@@ -79,8 +79,9 @@ namespace Assets.Scripts.Vehicles.Machines
 					"Prefabs/ParticleSystems/CarExplosionEffect",
 					typeof(GameObject)),
 				_player.transform.position + Vector3.back * 10,
-				Quaternion.identity);
+				Quaternion.identity) as GameObject;
             explosion.name = "Vehicle Explosion";
+            explosion.AddComponent<ObjectDestroyer>();
 
             var spriteRenderer = _player.GetComponentInChildren<SpriteRenderer>();
 			spriteRenderer.color = new Color(0.25f, 0.25f, 0.25f);
