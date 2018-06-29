@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerCarHandling : IHandlingBehaviour
+public class PlayerCarPhysics : IHandlingBehaviour
 {
 	public float CurrentSpeed { get; set; }
 	public float MaxSpeed { get; set; }
@@ -22,7 +22,7 @@ public class PlayerCarHandling : IHandlingBehaviour
 	private float _acceleration;
 	private readonly IVehicle _currentVehicle;
 	
-	public PlayerCarHandling(GameObject player)
+	public PlayerCarPhysics(GameObject player)
 	{
 		HandlingObject = player;
 

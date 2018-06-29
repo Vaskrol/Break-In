@@ -14,17 +14,17 @@ public class Alpha2 : VehicleBase
         MaxHealthPoints     = 200f;
         UserAccelerating = 0.3f;
 		Braking          = 1.5f;
-		Steering         = 50.0f;
-		Acceleration     = 8.0f;
+		Steering         = 30.0f;
+		Acceleration     = 80.0f;
 		MaxSpeed         = 6f;
-		Mass             = 900f;
+		Mass             = 9;
         CenterOfMass     = new Vector3(0, 0.5f);
 		Slots = new ISlot[]
 		{
 			new WeaponSlot { Position = new Vector2(0, -0.4f) }
 		};
         		
-		Handling = new RigidBodyCarPhysics(player, this);
+		Handling = new FullRigidBodyCarPhysics(player, this);
 		Firing = new PlayerFiring(player.transform, this);
 		Destroyer = new OverloadVehicleDestroyer(player, this, 7.0f);        
 
