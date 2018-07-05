@@ -21,6 +21,7 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
     private readonly Text _speedText;
     private readonly VehicleBase _currentVehicle;
     private Rigidbody2D _vehicleRb;
+    private Text _debugLabel;
 
     public FullRigidBodyCarPhysics(GameObject player, VehicleBase currentVehicle) {
         HandlingObject = player;
@@ -36,6 +37,7 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
     private void SetSpecifications() {
         HandlingObject.GetComponent<Rigidbody2D>().mass
             = _currentVehicle.Mass;
+        _debugLabel = GameObject.Find("Direction").GetComponent<Text>();
     }
 
     public void Update() {
@@ -51,12 +53,24 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
         Vector2 speed = HandlingObject.transform.up * (_v * _currentVehicle.Acceleration);
         _vehicleRb.AddForce(speed);
 
+        // Speed vector * Car forward vector in global space
+        // Shows how is speed vector equals car forward direction
+        // 0 when moving sidewais, positive when moving forward, negative when moving backward
         float direction = Vector2.Dot(_vehicleRb.velocity, _vehicleRb.GetRelativeVector(Vector2.up));
-        if (direction >= 0.0f) {
-            _vehicleRb.AddTorque((_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
-        }
-        else {
-            _vehicleRb.AddTorque((-_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
+
+        var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
+
+        // IF WHAT? if ((curAngle > 0 && curAngle < 1) 
+        {
+            // Moving forward
+            if (direction >= 0.0f) {
+                _vehicleRb.AddTorque((_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
+            }
+
+            // Moving backward
+            else {
+                _vehicleRb.AddTorque((-_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
+            }
         }
 
         Vector2 forward = new Vector2(0.0f, 0.5f);
@@ -85,15 +99,16 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
         var userHandlingPos = Camera.main.ScreenToWorldPoint(InputTool.InputPosition).x - HandlingObject.transform.position.x;
         _h = - Mathf.Clamp(userHandlingPos, -1, 1);
 
-        if (_h == 0) {
-            var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
-            if (curAngle >= 1 && curAngle <= 180) { // Turned left
-                _h = 0.5f;
-            }
-            else if (curAngle > 180 && curAngle <= 359) { // Turned right
-                _h = -0.5f;
-            }
-        }
+       
+        //if (_h == 0) {
+        //    var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
+        //    if (curAngle >= 1 && curAngle <= 180) { // Turned left
+        //        _h = 0.5f;
+        //    }
+        //    else if (curAngle > 180 && curAngle <= 359) { // Turned right
+        //        _h = -0.5f;
+        //    }
+        //}
     }
 
     public void InstallEquipment() {
