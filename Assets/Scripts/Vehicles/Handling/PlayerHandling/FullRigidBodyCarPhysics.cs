@@ -10,6 +10,7 @@ using UnityEngine.UI;
 // TODO: Separate this to "phisics" class
 public class FullRigidBodyCarPhysics : IHandlingBehaviour
 {
+    private const float _turnAngle = 5f;
     private float _h, _v;
 
     public HandlingCondition CurrentCondition { get; set; }
@@ -59,31 +60,31 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
         float direction = Vector2.Dot(_vehicleRb.velocity, _vehicleRb.GetRelativeVector(Vector2.up));
 
         var curAngle = HandlingObject.transform.rotation.eulerAngles.z;
+        _debugLabel.text = "Angle: " + curAngle + " H: " + _h;
 
-        // IF WHAT? if ((curAngle > 0 && curAngle < 1) 
-        {
-            // Moving forward
-            if (direction >= 0.0f) {
+        // Moving forward
+        if (direction >= 0.0f) {
+            if (_h >= 0 && (curAngle <= _turnAngle || curAngle > 180) || _h <= 0 && (curAngle >= 360 - _turnAngle || curAngle < 180)) {
                 _vehicleRb.AddTorque((_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
             }
 
-            // Moving backward
             else {
-                _vehicleRb.AddTorque((-_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
+                if (curAngle > _turnAngle && curAngle < 180)
+                    _vehicleRb.AddTorque(-steering * (_vehicleRb.velocity.magnitude / 10.0f));
+                else if (curAngle < 360 - _turnAngle && curAngle > 180)
+                    _vehicleRb.AddTorque(steering * (_vehicleRb.velocity.magnitude / 10.0f));
             }
         }
 
-        Vector2 forward = new Vector2(0.0f, 0.5f);
-        float steeringRightAngle;
-        if (_vehicleRb.angularVelocity > 0) {
-            steeringRightAngle = -90;
-        }
+        // Moving backward, we shouldn't do that
         else {
-            steeringRightAngle = 90;
+            _vehicleRb.AddTorque((-_h * steering) * (_vehicleRb.velocity.magnitude / 10.0f));
         }
-
+        
+        Vector2 forward = new Vector2(0.0f, 0.5f);
+        float steeringRightAngle  = _vehicleRb.angularVelocity > 0 ? -90 : 90;
+        
         Vector2 rightAngleFromForward = Quaternion.AngleAxis(steeringRightAngle, Vector3.forward) * forward;
-        Debug.Log("Rught angle from forward: " + rightAngleFromForward);
 
         Debug.DrawLine((Vector3)_vehicleRb.position, (Vector3)_vehicleRb.GetRelativePoint(rightAngleFromForward), Color.green);
         float driftForce = Vector2.Dot(_vehicleRb.velocity, _vehicleRb.GetRelativeVector(rightAngleFromForward.normalized));
