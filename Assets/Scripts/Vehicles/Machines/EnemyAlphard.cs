@@ -4,30 +4,32 @@
 using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Vehicles.Handling;
-using Assets.Scripts.Vehicles.Machines;
 using UnityEngine;
 
-public class EnemyAlphard : VehicleBase, IDestroyable
-{
-	public EnemyAlphard(GameObject player) : base(player)
+namespace Vehicles.Machines {
+	
+	public class EnemyAlphard : VehicleBase, IDestroyable
 	{
-		HealthPoints     = 50f;
-		MaxHealthPoints     = 50f;
-		UserAccelerating = 0.1f;
-		Braking          = 0.2f;
-		Steering         = 3.0f;
-		Acceleration     = 4.0f;
-		MaxSpeed         = 6f;
-		Mass             = 1000f;
-		Slots = new ISlot[]
+		public EnemyAlphard(GameObject player) : base(player)
 		{
-			new WeaponSlot { Position = new Vector2(0, -0.5f) }
-		};
+			Performance.HealthPoints     = 50f;
+			Performance.MaxHealthPoints  = 50f;
+			Performance.UserAccelerating = 0.1f;
+			Performance.Braking          = 0.2f;
+			Performance.Steering         = 3.0f;
+			Performance.Acceleration     = 4.0f;
+			Performance.MaxSpeed         = 6f;
+			Performance.Mass             = 1000f;
+			Slots = new ISlot[]
+			{
+				new WeaponSlot { Position = new Vector2(0, -0.5f) }
+			};
 
-		Handling = new StupidEnemyCarHandling(player, this);
-        Firing = new EnemyToPlayerFiring(player.transform, this);
-        Destroyer = new SlowVehicleDestroyer(player, this, 0.1f);
+			Handling  = new StupidEnemyCarHandling(player, this);
+			Firing    = new EnemyToPlayerFiring(player.transform, this);
+			Destroyer = new SlowVehicleDestroyer(player, this, 0.1f);
 
-        AddWeapon(ModulesController.Instance.Weapons.First(w => w is E_PistolA));
-    }
+			AddWeapon(ModulesController.Instance.Weapons.First(w => w is E_PistolA));
+		}
+	}
 }

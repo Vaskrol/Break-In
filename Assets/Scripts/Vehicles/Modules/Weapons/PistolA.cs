@@ -7,6 +7,7 @@
 // 2016
 using Assets.Scripts.Vehicles.Weapons.Rotation;
 using UnityEngine;
+using Vehicles.Machines;
 
 public class PistolA : AbstractWeapon, IWeapon {
 
@@ -49,7 +50,7 @@ public class PistolA : AbstractWeapon, IWeapon {
                     return;
 
                 var vehicle = vController.CurrentVehicle;
-                vehicle.RecieveDamage(Damage, DamageType.Bullit);
+                vehicle.ReceiveDamage(Damage, DamageType.Bullit);
             }
 		}
 	}

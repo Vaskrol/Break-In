@@ -2,10 +2,10 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 using System;
 using System.Linq;
-using Assets.Scripts.Vehicles.Machines;
 using Tools;
 using UnityEngine;
 using UnityEngine.UI;
+using Vehicles.Machines;
 
 // TODO: Separate this to "phisics" class
 public class FullRigidBodyCarPhysics : IHandlingBehaviour
@@ -37,7 +37,7 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
     
     private void SetSpecifications() {
         HandlingObject.GetComponent<Rigidbody2D>().mass
-            = _currentVehicle.Mass;
+            = _currentVehicle.Performance.Mass;
         _debugLabel = GameObject.Find("Direction").GetComponent<Text>();
     }
 
@@ -49,9 +49,9 @@ public class FullRigidBodyCarPhysics : IHandlingBehaviour
     }
 
     private void ProcessPhysics() {
-        var steering = _currentVehicle.Steering;
+        var steering = _currentVehicle.Performance.Steering;
 
-        Vector2 speed = HandlingObject.transform.up * (_v * _currentVehicle.Acceleration);
+        Vector2 speed = HandlingObject.transform.up * (_v * _currentVehicle.Performance.Acceleration);
         _vehicleRb.AddForce(speed);
 
         // Speed vector * Car forward vector in global space

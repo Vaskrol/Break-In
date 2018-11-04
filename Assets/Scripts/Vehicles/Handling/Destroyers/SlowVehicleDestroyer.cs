@@ -5,10 +5,12 @@
 // Vpetrov. Петров Василий Александрович. 
 // 
 // 2017
+
+using Vehicles.Handling.Destroyers;
+using Vehicles.Machines;
+
 namespace Assets.Scripts.Vehicles.Handling
 {
-	using Machines;
-	using Interfaces;
 	using UnityEngine;
 
 	public class SlowVehicleDestroyer : IVehicleDestroyer

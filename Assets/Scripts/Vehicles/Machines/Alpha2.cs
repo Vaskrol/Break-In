@@ -2,23 +2,23 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 using Assets.Scripts.Vehicles.Handling;
 using Assets.Scripts.Vehicles.Handling.PlayerHandling;
-using Assets.Scripts.Vehicles.Machines;
 using UnityEngine;
 using System.Linq;
+using Vehicles.Machines;
 
 public class Alpha2 : VehicleBase
 {
 	public Alpha2(GameObject player) : base(player)
 	{
-        HealthPoints     = 200f;
-        MaxHealthPoints  = 200f;
-        UserAccelerating = 0.3f;
-		Braking          = 1.5f;
-		Steering         = 30.0f;
-		Acceleration     = 80.0f;
-		MaxSpeed         = 6f;
-		Mass             = 9;
-        CenterOfMass     = new Vector3(0, 0.5f);
+		Performance.HealthPoints     = 200f;
+		Performance.MaxHealthPoints  = 200f;
+		Performance.UserAccelerating = 0.3f;
+		Performance.Braking          = 1.5f;
+		Performance.Steering         = 30.0f;
+		Performance.Acceleration     = 80.0f;
+		Performance.MaxSpeed         = 6f;
+		Performance.Mass             = 9;
+		Performance.CenterOfMass     = new Vector3(0, 0.5f);
 		Slots = new ISlot[]
 		{
 			new WeaponSlot { Position = new Vector2(0, -0.4f) }

@@ -36,6 +36,9 @@ public class CitySelectionButtonController : MonoBehaviour {
 	}
 
 	private void OnDestroy() {
+		if (_button == null)
+			return;
+		
 		_button.onClick.RemoveListener(LoadGame);
 	}
 }

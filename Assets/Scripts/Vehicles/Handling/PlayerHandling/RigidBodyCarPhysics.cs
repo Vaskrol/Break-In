@@ -6,9 +6,9 @@
 
 using System;
 using System.Linq;
-using Assets.Scripts.Vehicles.Machines;
 using Tools;
 using UnityEngine;
+using Vehicles.Machines;
 
 namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 {
@@ -70,7 +70,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 
             var xAxis = Mathf.Clamp(xDiff, leftClamp, rightClamp);
 			var steer = 
-				_currentVehicle.Steering 
+				_currentVehicle.Performance.Steering 
 				* Mathf.Pow(xAxis, 2) 
 				* Mathf.Sign(xAxis);
 
@@ -124,8 +124,8 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 		{
 			_vehicleRb = HandlingObject.GetComponent<Rigidbody2D>();
 			var currentSpeed = _vehicleRb.velocity.y;
-			var maxSpeed = _currentVehicle.MaxSpeed;
-			var vehicleAcceleration = _currentVehicle.Acceleration;
+			var maxSpeed = _currentVehicle.Performance.MaxSpeed;
+			var vehicleAcceleration = _currentVehicle.Performance.Acceleration;
 			var acceleration = vehicleAcceleration -
 			                   vehicleAcceleration * currentSpeed /
 			                   maxSpeed;
@@ -168,7 +168,7 @@ namespace Assets.Scripts.Vehicles.Handling.PlayerHandling
 		private void SetSpecifications()
 		{
 			HandlingObject.GetComponent<Rigidbody2D>().mass
-				= _currentVehicle.Mass;
+				= _currentVehicle.Performance.Mass;
 		}
 	}
 }

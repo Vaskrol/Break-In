@@ -2,7 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 using UnityEngine;
 using System.Linq;
-using Assets.Scripts.Vehicles.Machines;
+using Vehicles.Machines;
 
 public class PlayerFiring : IFiringBehaviour {
 

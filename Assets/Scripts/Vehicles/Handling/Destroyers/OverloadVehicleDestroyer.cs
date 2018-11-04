@@ -3,10 +3,12 @@
 // Vpetrov. Петров Василий Александрович. 
 // 
 // 2017
+
+using Vehicles.Handling.Destroyers;
+using Vehicles.Machines;
+
 namespace Assets.Scripts.Vehicles.Handling
 {
-	using Interfaces;
-	using Machines;
 	using UnityEngine;
 
 	public class OverloadVehicleDestroyer : IVehicleDestroyer

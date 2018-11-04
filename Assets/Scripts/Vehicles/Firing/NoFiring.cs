@@ -5,10 +5,11 @@
 // Vpetrov. Петров Василий Александрович. 
 // 
 // 2017
-namespace Assets.Scripts.Vehicles.Firing
-{
-	using UnityEngine;
 
+using UnityEngine;
+
+namespace Vehicles.Firing
+{
 	public class NoFiring : IFiringBehaviour
 	{
 		public GameObject GameObject { get; set; }

@@ -2,9 +2,8 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 using System;
 using Assets.Scripts;
-using Assets.Scripts.Vehicles.Machines;
-
 using UnityEngine;
+using Vehicles.Machines;
 
 public class StupidEnemyCarHandling : IHandlingBehaviour
 {
@@ -54,7 +53,7 @@ public class StupidEnemyCarHandling : IHandlingBehaviour
 		                  - _prevPosition;
 		CurrentVelocity = movingDelta / Time.deltaTime;
 		var currentSpeed = CurrentVelocity.y;
-		var maxSpeed = _currentVehicle.MaxSpeed;
+		var maxSpeed = _currentVehicle.Performance.MaxSpeed;
 		currentSpeed += 1 - CurrentVelocity.y / maxSpeed;
 		_prevPosition = HandlingObject.transform.position;
 
@@ -65,14 +64,14 @@ public class StupidEnemyCarHandling : IHandlingBehaviour
 			Vector2.MoveTowards(
 				HandlingObject.transform.position,
 				HandlingObject.transform.position + Vector3.right * _hAxis,
-				_currentVehicle.Steering * Time.deltaTime);
+				_currentVehicle.Performance.Steering * Time.deltaTime);
 
 		// ALIGNING
 		var playerRotation =
 			HandlingObject.transform.rotation.eulerAngles.z;
 		if (playerRotation > 0.5f)
 		{
-			var rotateAngle = _currentVehicle.Steering * 10
+			var rotateAngle = _currentVehicle.Performance.Steering * 10
 							  * Time.deltaTime;
 
 			if (playerRotation < 180)
@@ -98,6 +97,6 @@ public class StupidEnemyCarHandling : IHandlingBehaviour
 
 	private void SetSpecifications()
 	{
-		MaxSpeed = _currentVehicle.MaxSpeed;
+		MaxSpeed = _currentVehicle.Performance.MaxSpeed;
 	}
 }

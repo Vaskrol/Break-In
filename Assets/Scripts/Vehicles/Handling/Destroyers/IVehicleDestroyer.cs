@@ -5,7 +5,7 @@
 // Vpetrov. Петров Василий Александрович. 
 // 
 // 2017
-namespace Assets.Scripts.Vehicles.Interfaces
+namespace Vehicles.Handling.Destroyers
 {
 	public interface IVehicleDestroyer
 	{

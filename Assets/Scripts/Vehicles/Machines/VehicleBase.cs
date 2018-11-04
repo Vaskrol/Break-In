@@ -5,32 +5,17 @@
 // Vpetrov. Петров Василий Александрович. 
 // 
 // 2017
-namespace Assets.Scripts.Vehicles.Machines
-{
-    using System.Linq;
-    using Firing;
-	using Interfaces;
-	using UnityEngine;
 
+using System.Linq;
+using UnityEngine;
+using Vehicles.Firing;
+using Vehicles.Handling.Destroyers;
+
+namespace Vehicles.Machines
+{
 	public abstract class VehicleBase
 	{
-		public float Acceleration { get; set; }
-
-		public float Braking { get; set; }
-
-		public float MaxSpeed { get; set; }
-
-		public float Mass { get; set; }
-
-		public float Steering { get; set; }
-
-		public float UserAccelerating { get; set; }
-
-		public float HealthPoints { get; set; }
-
-		public float MaxHealthPoints { get; set; }
-
-		public Vector2 CenterOfMass { get; set; }
+		public VehicleSpecifications Performance { get; set; }
 
 		public IHandlingBehaviour Handling { get; set; }
 
@@ -50,6 +35,7 @@ namespace Assets.Scripts.Vehicles.Machines
 		{
 			CurrentGameState = GameState.Playing;
 			_player = player;
+			Performance = new VehicleSpecifications();
 			Firing = new NoFiring();
 		}
 
@@ -58,21 +44,20 @@ namespace Assets.Scripts.Vehicles.Machines
 			Handling.Update();
 			Firing.Update();
 
-			if (Destroyer.DestroyNeeded())
-			{
+			if (Destroyer.DestroyNeeded()) {
 				BlowUpVehicle();
 			}
 		}
 
-		public void RecieveDamage(float damage, DamageType damageType)
+		public void ReceiveDamage(float damage, DamageType damageType)
 		{
-			HealthPoints -= damage;
+			Performance.HealthPoints -= damage;
 
-			if (HealthPoints <= 0)
+			if (Performance.HealthPoints <= 0)
 				BlowUpVehicle();
 		}
 
-		public void BlowUpVehicle()
+		private void BlowUpVehicle()
 		{
 			var explosion = GameObject.Instantiate(
 				Resources.Load(
@@ -80,27 +65,28 @@ namespace Assets.Scripts.Vehicles.Machines
 					typeof(GameObject)),
 				_player.transform.position + Vector3.back * 10,
 				Quaternion.identity) as GameObject;
-            explosion.name = "Vehicle Explosion";
-            explosion.AddComponent<ObjectDestroyer>();
+			
+			if (explosion != null) {
+				explosion.name = "Vehicle Explosion";
+				explosion.AddComponent<ObjectDestroyer>();
+			}
 
-            var spriteRenderer = _player.GetComponentInChildren<SpriteRenderer>();
-			spriteRenderer.color = new Color(0.25f, 0.25f, 0.25f);
-
+			var spriteRenderer = _player.GetComponentInChildren<SpriteRenderer>();
+				spriteRenderer.color = new Color(0.25f, 0.25f, 0.25f);
 			//var dust = _player.transform.Find("CarDustTrack").gameObject;
 			//if (dust != null)
-   //             Destroy(dust);
+			//	Destroy(dust);
 
 			OnDestroy();
 		}
 
-		private void OnDestroy()
-		{
+		private void OnDestroy() {
 			CurrentGameState = GameState.GameOver;
 		}
 
         // Resources.Load("Prefabs/Weapons/PistolA", typeof(GameObject))
-        public void AddWeapon(IWeapon weapon) {
-            WeaponSlot slot = Slots.OfType<WeaponSlot>().Where(s => s.Weapon == null).First();
+		protected void AddWeapon(IWeapon weapon) {
+            WeaponSlot slot = Slots.OfType<WeaponSlot>().First(s => s.Weapon == null);
             if (slot == null) {
                 Debug.LogError("There is no free slot in" + GetType());
                 return;
@@ -119,7 +105,7 @@ namespace Assets.Scripts.Vehicles.Machines
             AddWeapon(weapon, slot);
         }
 
-        public void AddWeapon(IWeapon weapon, WeaponSlot slot) {
+		private void AddWeapon(IWeapon weapon, WeaponSlot slot) {
             var weaponGameObject = GameObject.Instantiate(weapon.GameObject);
             slot.Weapon = weaponGameObject.GetComponent<IWeapon>();
             slot.GameObject = weaponGameObject;

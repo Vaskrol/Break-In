@@ -9,6 +9,6 @@ namespace Assets.Scripts
 {
 	public interface IDestroyable
 	{
-		void RecieveDamage(float damage, DamageType damageType);
+		void ReceiveDamage(float damage, DamageType damageType);
 	}
 }

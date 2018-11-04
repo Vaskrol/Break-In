@@ -5,13 +5,11 @@
 // Vpetrov. Петров Василий Александрович. 
 // 
 // 2017
-namespace MapSystem
-{
+namespace MapSystem {
     using System;
     using DataModel;
 
-    public abstract class MapBuilder
-	{
+    public abstract class MapBuilder {
 		public abstract void SetMapSize(int length, int width, float tileSize);
 		public abstract void SetMapParams(object[] parameters);
         public abstract void SetMapObjects(MapObject[] mapObjects);

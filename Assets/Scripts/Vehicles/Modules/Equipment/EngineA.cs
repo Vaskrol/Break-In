@@ -6,19 +6,21 @@
 // 
 // 2016
 
-using Assets.Scripts.Vehicles.Machines;
+using Vehicles.Machines;
 
-public class EngineA : IEquipment
-{
-	private readonly float _maxSpeed = 0.5f;
-
-	public void Install(VehicleBase vehicle)
+namespace Vehicles.Modules.Equipment {
+	public class EngineA : IEquipment
 	{
-		vehicle.MaxSpeed += _maxSpeed;
-	}
+		private readonly float _maxSpeed = 0.5f;
 
-	public void Uninstall(VehicleBase vehicle)
-	{
-		vehicle.MaxSpeed -= _maxSpeed;
+		public void Install(VehicleBase vehicle)
+		{
+			vehicle.Performance.MaxSpeed += _maxSpeed;
+		}
+
+		public void Uninstall(VehicleBase vehicle)
+		{
+			vehicle.Performance.MaxSpeed -= _maxSpeed;
+		}
 	}
 }

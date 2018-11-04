@@ -6,7 +6,7 @@
 // 
 // 2016
 
-using Assets.Scripts.Vehicles.Machines;
+using Vehicles.Machines;
 
 public interface IEquipment
 {
