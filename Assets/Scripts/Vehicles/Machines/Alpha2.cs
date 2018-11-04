@@ -11,7 +11,7 @@ public class Alpha2 : VehicleBase
 	public Alpha2(GameObject player) : base(player)
 	{
         HealthPoints     = 200f;
-        MaxHealthPoints     = 200f;
+        MaxHealthPoints  = 200f;
         UserAccelerating = 0.3f;
 		Braking          = 1.5f;
 		Steering         = 30.0f;

@@ -123,7 +123,7 @@ namespace Assets.Scripts.Vehicles.Machines
             var weaponGameObject = GameObject.Instantiate(weapon.GameObject);
             slot.Weapon = weaponGameObject.GetComponent<IWeapon>();
             slot.GameObject = weaponGameObject;
-            weaponGameObject.transform.parent = _player.transform;
+            weaponGameObject.transform.SetParent(_player.transform, false);
             weaponGameObject.transform.localPosition = slot.Position;
         }
     }

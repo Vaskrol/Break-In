@@ -66,14 +66,14 @@ namespace MapSystem
 					if (x == 0 || x == _map.Width - 1)
 					{
 						// Borders
-						var tile = new Tile();
+						var tile = ScriptableObject.CreateInstance<Tile>(); // new Tile();
 						tile.sprite = _mainBackgroundSprite;
 						_map.Ground[x, y] = tile;
 					}
 					else
 					{
 						// Grounds
-						var tile = new Tile();
+						var tile = ScriptableObject.CreateInstance<Tile>();
 						tile.sprite = _mainBackgroundSprite;
 						_map.Ground[x, y] = tile;
 					}

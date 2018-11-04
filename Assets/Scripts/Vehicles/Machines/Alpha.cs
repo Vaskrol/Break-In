@@ -34,7 +34,7 @@ public class Alpha : MonoBehaviour, IVehicle
 	{
 		UserAccelerating = 0.3f;
 		Braking = 1.5f;
-		Steering = 10.0f;
+		Steering = 30.0f;
 		Acceleration = 5.0f;
 		MaxSpeed = 6f;
 		Mass = 900f;

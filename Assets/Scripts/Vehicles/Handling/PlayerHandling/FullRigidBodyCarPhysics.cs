@@ -10,7 +10,7 @@ using UnityEngine.UI;
 // TODO: Separate this to "phisics" class
 public class FullRigidBodyCarPhysics : IHandlingBehaviour
 {
-    private const float _turnAngle = 5f;
+    private const float _turnAngle = 15f;
     private float _h, _v;
 
     public HandlingCondition CurrentCondition { get; set; }
