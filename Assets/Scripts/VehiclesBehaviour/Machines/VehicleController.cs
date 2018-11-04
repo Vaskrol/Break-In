@@ -39,12 +39,12 @@ namespace Vehicles.Machines {
 				return;
 
 			if (_isPlayer) {
-				UIController.Instance.HealthBar.SetPercent(
+				GameUIController.Instance.HealthBar.SetPercent(
 					CurrentVehicle.Performance.HealthPoints /
 					CurrentVehicle.Performance.MaxHealthPoints * 100f);
 
 				if (CurrentVehicle.CurrentGameState == GameState.GameOver) {
-					UIController.Instance.FadeGame(true, () => {
+					GameUIController.Instance.FadeGame(true, () => {
 						SceneManager.LoadScene("MapSelection");	
 					});		
 				}

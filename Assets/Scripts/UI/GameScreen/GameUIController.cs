@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI {
-    class UIController : MbSingleton<UIController> {
+    class GameUIController : MbSingleton<GameUIController> {
 
         [SerializeField] public BarController HealthBar;
         [SerializeField] public Image         Fader;
