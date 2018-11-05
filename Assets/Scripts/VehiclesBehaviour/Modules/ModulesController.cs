@@ -1,8 +1,8 @@
 ﻿
 using System.Collections.Generic;
-using Assets.Scripts.Basics;
 using UnityEngine;
 using System.Linq;
+using Basics;
 using Vehicles.Modules.Equipment;
 
 class ModulesController : MbSingleton<ModulesController> {

@@ -57,7 +57,7 @@ namespace Vehicles.Machines
 				BlowUpVehicle();
 		}
 
-		private void BlowUpVehicle()
+		public void BlowUpVehicle()
 		{
 			var explosion = GameObject.Instantiate(
 				Resources.Load(

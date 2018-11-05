@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Basics;
-using UnityEngine;
 using System.Linq;
+using Assets.Scripts;
+using Basics;
+using UnityEngine;
 
-namespace Assets.Scripts.AI {
+namespace AI {
     class EnemiesController : MbSingleton<EnemiesController> {
 
         [SerializeField] private GameObject _enemiesHolder;
@@ -13,7 +14,7 @@ namespace Assets.Scripts.AI {
         [SerializeField] private List<GameObject> _enemiesPrefabs;
 
 
-        private List<GameObject> _enemies = new List<GameObject>();
+        private readonly List<GameObject> _enemies = new List<GameObject>();
         
         public List<IDestroyable> Enemies {
             get {
@@ -21,24 +22,19 @@ namespace Assets.Scripts.AI {
             }
         }
 
-        private float timeToSpawn = 0;
-        private float spawnCooldown = 1.5f;
-
-
-        private void Start() {
-            
-        }
-
+        private float _timeToSpawn = 0;
+        private const float SpawnCooldown = 1.5f;
 
         private void Update() {
 
-            if (timeToSpawn <= 0 && _enemies.Count < 10) {
+            if (_timeToSpawn <= 0 && _enemies.Count < 10) {
                 var enemy = SpawnEnemy();
-                timeToSpawn = spawnCooldown;
+                _enemies.Add(enemy);
+                _timeToSpawn = SpawnCooldown;
                 return;
             }
 
-            timeToSpawn -= Time.deltaTime;
+            _timeToSpawn -= Time.deltaTime;
         }
 
         private GameObject SpawnEnemy() {

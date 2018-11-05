@@ -74,6 +74,9 @@ public class E_PistolA : AbstractWeapon, IWeapon {
     }
 
     public void UpdateRotation() {
+        if (RotationBehaviour == null)
+            return;
+        
         RotationBehaviour.PerformRotation(gameObject);
     }
 }

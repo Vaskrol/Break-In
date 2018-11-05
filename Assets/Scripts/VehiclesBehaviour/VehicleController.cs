@@ -2,8 +2,10 @@
 // PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 
 using UI;
+using UI.GameScreen;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VehiclesBehaviour.Machines;
 
 namespace Vehicles.Machines {
 	
@@ -38,23 +40,23 @@ namespace Vehicles.Machines {
 			if (CurrentVehicle == null)
 				return;
 
-			if (_isPlayer) {
-				GameUIController.Instance.HealthBar.SetPercent(
-					CurrentVehicle.Performance.HealthPoints /
-					CurrentVehicle.Performance.MaxHealthPoints * 100f);
+			if (!_isPlayer) 
+				return;
+			
+			GameUIController.Instance.HealthBar.SetPercent(
+				CurrentVehicle.Performance.HealthPoints /
+				CurrentVehicle.Performance.MaxHealthPoints * 100f);
 
-				if (CurrentVehicle.CurrentGameState == GameState.GameOver) {
-					GameUIController.Instance.FadeGame(true, () => {
-						SceneManager.LoadScene("MapSelection");	
-					});		
-				}
+			if (CurrentVehicle.CurrentGameState == GameState.GameOver) {
+				GameUIController.Instance.FadeGame(true, () => {
+					SceneManager.LoadScene("MapSelection");	
+				});		
 			}
 		}
 
 		private void OnCollisionEnter2D(Collision2D collision) {
-			if (collision.gameObject.CompareTag("Obstacle")) {
-				CurrentVehicle.ReceiveDamage(10f, DamageType.Impact);
-			}
+			if (collision.gameObject.CompareTag("Obstacle")) 
+				CurrentVehicle.BlowUpVehicle();
 		}
 	}
 }

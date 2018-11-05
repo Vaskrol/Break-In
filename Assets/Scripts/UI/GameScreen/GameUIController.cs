@@ -1,9 +1,9 @@
 ﻿using System;
-using Assets.Scripts.Basics;
+using Basics;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI {
+namespace UI.GameScreen {
     class GameUIController : MbSingleton<GameUIController> {
 
         [SerializeField] public BarController HealthBar;
