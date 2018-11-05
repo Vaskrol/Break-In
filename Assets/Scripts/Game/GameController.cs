@@ -15,8 +15,8 @@ namespace Game {
             _instance = this;
         }
 
-        public void SetMap() {
-            
+        public void SetMap(MapParameters mapParams) {
+            _mapClient.InitializeMap(mapParams);
         }
 
         private void Update() {

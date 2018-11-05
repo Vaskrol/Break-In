@@ -10,9 +10,7 @@ namespace MapSystem {
     using DataModel;
 
     public abstract class MapBuilder {
-		public abstract void SetMapSize(int length, int width, float tileSize);
-		public abstract void SetMapParams(object[] parameters);
-        public abstract void SetMapObjects(MapObject[] mapObjects);
+		public abstract void SetMapParams(MapParameters parameters);
         public abstract void GenerateGround();
 		public abstract void GenerateObjects();
 		public abstract Map GetMap();

@@ -16,8 +16,7 @@ namespace MapSystem {
 		[SerializeField] private Sprite     _mainSprite;
 
 		[Header("Map objects prefabs")]
-		[SerializeField]
-		private MapObject[] _mapObjectPrefabs;	
+		[SerializeField] private MapObject[] _mapObjectPrefabs;	
 
 		private List<MapObject> _mapObjects;
 
@@ -26,28 +25,31 @@ namespace MapSystem {
 
 		private Map _map;
 
+		// Set by level
 		private int _mapWidth     = 12;
 		private int _mapLength    = 500;
+		
 		private int _chunkSize    = 24;
 		private int _currentChunk = -1;
 
-		private object[] _mapParams;
+		private bool _initialized;
 
-		void InitializeMap() {
-			_mapParams = new object[] {
-				_mainSprite
+		public void InitializeMap(MapParameters parameters) {
+			MapBuilder builder = new ProcedureMapBuilder();
+			var director = new MapDirector(builder);
+			var mapParams = new MapParameters {
+				MapObjectPrefabs = _mapObjectPrefabs,
+				MainMapSprite = _mainSprite,
+				MapLength = _mapLength,
+				MapWidth = _mapWidth,
+				TileSize = _tileSize
 			};
-
-			MapBuilder builder  = new ProcedureMapBuilder();
-			var        director = new MapDirector(builder);
-			director.SetupMap(_mapParams, _mapObjectPrefabs);
-			director.BuildMap(_mapLength, _mapWidth, _tileSize);
+			mapParams.MixWith(parameters);
+			director.SetupMap(mapParams);
 			_map = builder.GetMap();
-		}
 
-		public void Start()
-		{
-			InitializeMap();
+			_initialized = true;
+			
 			_mapObjects = new List<MapObject>();
 
 			DrawChunk(0);
@@ -56,26 +58,25 @@ namespace MapSystem {
 			DrawObjects(1);
 		}
 
-		public void Update()
-		{
+		public void Update() {
+			if (!_initialized)
+				return;
+			
 			int currentTileY = (int)(_player.transform.position.y / _tileSize);
 
 			// Drawing map
-			if (_currentChunk != currentTileY / _chunkSize)
-			{
+			if (_currentChunk != currentTileY / _chunkSize) {
 				_currentChunk = currentTileY / _chunkSize;
 				int maxChunkNumber = _map.Length / _chunkSize + 1;
 
 				// Draw next chunk
-				if (_currentChunk > 0 && _currentChunk < maxChunkNumber)
-				{
+				if (_currentChunk > 0 && _currentChunk < maxChunkNumber) {
 					DrawChunk(_currentChunk + 1);
 					DrawObjects(_currentChunk + 1);
 				}
 
 				// Remove hidden chunk
-				if (_currentChunk > 0)
-				{
+				if (_currentChunk > 0) {
 					// RemoveChunk(_currentChunk - 2);
 					//RemoveObjects(_currentChunk - 2);
 				}
@@ -87,6 +88,8 @@ namespace MapSystem {
 				_walls.transform.position.z);
 		}
 
+		#region Map rendering
+		
 		private void DrawChunk(int chunkY)
 		{
 			DrawTiles(
@@ -155,5 +158,7 @@ namespace MapSystem {
 				}
 			}
 		}
+		
+		#endregion
 	}
 }

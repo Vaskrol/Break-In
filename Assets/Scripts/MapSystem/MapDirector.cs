@@ -5,21 +5,19 @@ using UnityEngine;
 
 namespace MapSystem {
 	public class MapDirector {
-		private MapBuilder mapBuilder;
+		private readonly MapBuilder _mapBuilder;
 
 		public MapDirector(MapBuilder builder) {
-			mapBuilder = builder;
+			_mapBuilder = builder;
 		}
 
-		public void SetupMap(object[] parameters, MapObject[] mapObjects) {
-			mapBuilder.SetMapParams(parameters);
-			mapBuilder.SetMapObjects(mapObjects);
+		public void SetupMap(MapParameters mapParams) {
+			_mapBuilder.SetMapParams(mapParams);
 		}
 
-		public void BuildMap(int length, int width, float tileSize) {
-			mapBuilder.SetMapSize(length, width, tileSize);
-			mapBuilder.GenerateGround();
-			mapBuilder.GenerateObjects();
+		public void BuildMap() {
+			_mapBuilder.GenerateGround();
+			_mapBuilder.GenerateObjects();
 		}
 	}
 }
